@@ -7,11 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using System.Media;
 
 namespace SimonSays
 {
     public partial class GameScreen : UserControl
     {
+        SoundPlayer correctGuessSound = new SoundPlayer(Properties.Resources.Correct_Guess);
+        SoundPlayer wrongGuessCound = new SoundPlayer(Properties.Resources.Wrong_Guess);
+
         Random random = new Random();
 
         int interval = 1000;
@@ -89,11 +93,16 @@ namespace SimonSays
                 Thread.Sleep(100);
             }
 
+            Button1.Enabled = true;
+            Button2.Enabled = true;
+            Button3.Enabled = true;
+            Button4.Enabled = true;
+
             patternGuessIndex = 0;
         }
 
         public void PlayerTurn (int buttonNumber)
-        {
+        { 
             if (buttonNumber == Form1.pattern[patternGuessIndex])
             {
                 switch(Form1.pattern[patternGuessIndex])
@@ -112,8 +121,10 @@ namespace SimonSays
                         break;
                 }
 
+                correctGuessSound.Play();
+
                 Refresh();
-                Thread.Sleep(100);
+                Thread.Sleep(200);
 
                 Button1.BackColor = Color.Gainsboro;
                 Button2.BackColor = Color.Gainsboro;
@@ -125,7 +136,7 @@ namespace SimonSays
                 if (patternGuessIndex == Form1.pattern.Count)
                 {
                     Refresh();
-                    Thread.Sleep(100);
+                    Thread.Sleep(500);
 
                     ComputerTurn();
 
@@ -135,6 +146,8 @@ namespace SimonSays
             }
             else
             {
+                wrongGuessCound.Play();
+
                 Form parentForm = this.FindForm();
                 ParentForm.Controls.Add(new GameOverScreen());
                 parentForm.Controls.Remove(this);

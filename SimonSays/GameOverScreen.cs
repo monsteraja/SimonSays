@@ -16,5 +16,26 @@ namespace SimonSays
         {
             InitializeComponent();
         }
+
+        private void ExitButton_Click(object sender, EventArgs e)
+        {
+            Form parentForm = this.FindForm();
+
+            parentForm.Controls.Remove(this);
+            parentForm.Controls.Add(new StartScreen());
+        }
+
+        private void PlayAgainButton_Click(object sender, EventArgs e)
+        {
+            Form parentForm = this.FindForm();
+
+            parentForm.Controls.Remove(this);
+            parentForm.Controls.Add(new GameScreen());
+        }
+
+        private void GameOverScreen_Load(object sender, EventArgs e)
+        {
+            GameOverLabel.Text = "You Successfully Completed " + (Form1.pattern.Count - 1) + " Rounds";
+        }
     }
 }
