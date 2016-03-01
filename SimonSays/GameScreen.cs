@@ -21,6 +21,8 @@ namespace SimonSays
         int interval = 1000;
         int patternGuessIndex = 0;
 
+        bool acceptClick = true;
+
         public GameScreen()
         {
             InitializeComponent();
@@ -34,28 +36,29 @@ namespace SimonSays
 
             Thread.Sleep(1000);
 
+            acceptClick = false;
             ComputerTurn();
         }
 
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            PlayerTurn(Button1.TabIndex);
+            PlayerTurn(1);
         }
 
         private void Button2_Click(object sender, EventArgs e)
         {
-            PlayerTurn(Button2.TabIndex);
+            PlayerTurn(2);
         }
 
         private void Button3_Click(object sender, EventArgs e)
         {
-            PlayerTurn(Button3.TabIndex);
+            PlayerTurn(3);
         }
 
         private void Button4_Click(object sender, EventArgs e)
         {
-            PlayerTurn(Button4.TabIndex);
+            PlayerTurn(4);
         }
 
         public void ComputerTurn ()
@@ -93,64 +96,64 @@ namespace SimonSays
                 Thread.Sleep(100);
             }
 
-            Button1.Enabled = true;
-            Button2.Enabled = true;
-            Button3.Enabled = true;
-            Button4.Enabled = true;
-
+            acceptClick = true;
             patternGuessIndex = 0;
         }
 
         public void PlayerTurn (int buttonNumber)
-        { 
-            if (buttonNumber == Form1.pattern[patternGuessIndex])
+        {
+            if (acceptClick)
             {
-                switch(Form1.pattern[patternGuessIndex])
+                if (buttonNumber == Form1.pattern[patternGuessIndex])
                 {
-                    case 1:
-                        Button1.BackColor = Color.Red;
-                        break;
-                    case 2:
-                        Button2.BackColor = Color.Blue;
-                        break;
-                    case 3:
-                        Button3.BackColor = Color.Green;
-                        break;
-                    case 4:
-                        Button4.BackColor = Color.Yellow;
-                        break;
-                }
+                    switch (Form1.pattern[patternGuessIndex])
+                    {
+                        case 1:
+                            Button1.BackColor = Color.Red;
+                            break;
+                        case 2:
+                            Button2.BackColor = Color.Blue;
+                            break;
+                        case 3:
+                            Button3.BackColor = Color.Green;
+                            break;
+                        case 4:
+                            Button4.BackColor = Color.Yellow;
+                            break;
+                    }
 
-                correctGuessSound.Play();
+                    correctGuessSound.Play();
 
-                Refresh();
-                Thread.Sleep(200);
-
-                Button1.BackColor = Color.Gainsboro;
-                Button2.BackColor = Color.Gainsboro;
-                Button3.BackColor = Color.Gainsboro;
-                Button4.BackColor = Color.Gainsboro;
-
-                patternGuessIndex++;
-
-                if (patternGuessIndex == Form1.pattern.Count)
-                {
                     Refresh();
-                    Thread.Sleep(500);
+                    Thread.Sleep(200);
 
-                    ComputerTurn();
+                    Button1.BackColor = Color.Gainsboro;
+                    Button2.BackColor = Color.Gainsboro;
+                    Button3.BackColor = Color.Gainsboro;
+                    Button4.BackColor = Color.Gainsboro;
 
-                    if (interval > 100)
-                        interval -= 100;
+                    patternGuessIndex++;
+
+                    if (patternGuessIndex == Form1.pattern.Count)
+                    {
+                        Refresh();
+                        Thread.Sleep(500);
+
+                        if (interval > 100)
+                            interval -= 150;
+
+                        acceptClick = false;
+                        ComputerTurn();
+                    }
                 }
-            }
-            else
-            {
-                wrongGuessCound.Play();
+                else
+                {
+                    wrongGuessCound.Play();
 
-                Form parentForm = this.FindForm();
-                ParentForm.Controls.Add(new GameOverScreen());
-                parentForm.Controls.Remove(this);
+                    Form parentForm = this.FindForm();
+                    ParentForm.Controls.Add(new GameOverScreen());
+                    parentForm.Controls.Remove(this);
+                }
             }
         }
     }
