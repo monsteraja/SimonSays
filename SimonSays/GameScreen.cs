@@ -1,4 +1,8 @@
-﻿using System;
+﻿///Made by Ben Fortin
+/// March 8 2016
+/// A simple simon says game with 4 buttons
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -15,7 +19,8 @@ namespace SimonSays
     {
         //Define the two sounds to play when the player makes a guess
         SoundPlayer correctGuessSound = new SoundPlayer(Properties.Resources.Correct_Guess);
-        SoundPlayer wrongGuessCound = new SoundPlayer(Properties.Resources.Wrong_Guess);
+        SoundPlayer wrongGuessSound = new SoundPlayer(Properties.Resources.Wrong_Guess);
+        SoundPlayer buttonSound = new SoundPlayer(Properties.Resources.Button_Sound);
 
         //The global Random class
         Random random = new Random();
@@ -77,16 +82,18 @@ namespace SimonSays
                 }
                 else if (Form1.pattern[i] == 2)
                 {
-                    Button2.BackColor = Color.Blue;
+                    Button2.BackColor = Color.Green;
                 }
                 else if (Form1.pattern[i] == 3)
                 {
-                    Button3.BackColor = Color.Green;
+                    Button3.BackColor = Color.Blue;
                 }
                 else if (Form1.pattern[i] == 4)
                 {
                     Button4.BackColor = Color.Yellow;
                 }
+
+                buttonSound.Play();
 
                 Refresh();
                 Thread.Sleep(interval);
@@ -119,10 +126,10 @@ namespace SimonSays
                         Button1.BackColor = Color.Red;
                         break;
                     case 2:
-                        Button2.BackColor = Color.Blue;
+                        Button2.BackColor = Color.Green;
                         break;
                     case 3:
-                        Button3.BackColor = Color.Green;
+                        Button3.BackColor = Color.Blue;
                         break;
                     case 4:
                         Button4.BackColor = Color.Yellow;
@@ -159,7 +166,7 @@ namespace SimonSays
             else
             {
                 //Play the wrong sound and show the GameOver screen
-                wrongGuessCound.Play();
+                wrongGuessSound.Play();
 
                 Form parentForm = this.FindForm();
                 ParentForm.Controls.Add(new GameOverScreen());

@@ -1,4 +1,9 @@
-﻿using System;
+﻿///Made by Ben Fortin
+/// March 8 2016
+/// A simple simon says game with 4 buttons
+
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
