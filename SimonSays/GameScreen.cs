@@ -18,9 +18,12 @@ namespace SimonSays
     public partial class GameScreen : UserControl
     {
         //Define the two sounds to play when the player makes a guess
-        SoundPlayer correctGuessSound = new SoundPlayer(Properties.Resources.Correct_Guess);
-        SoundPlayer wrongGuessSound = new SoundPlayer(Properties.Resources.Wrong_Guess);
-        SoundPlayer buttonSound = new SoundPlayer(Properties.Resources.Button_Sound);
+        SoundPlayer[] sounds = new SoundPlayer[] 
+        {
+            new SoundPlayer(Properties.Resources.Correct_Guess),
+            new SoundPlayer(Properties.Resources.Wrong_Guess),
+            new SoundPlayer(Properties.Resources.Button_Sound)
+        };
 
         //The global Random class
         Random random = new Random();
@@ -93,8 +96,7 @@ namespace SimonSays
                     Button4.BackColor = Color.Yellow;
                 }
 
-                buttonSound.Play();
-
+                sounds[2].Play();
                 Refresh();
                 Thread.Sleep(interval);
 
@@ -137,7 +139,8 @@ namespace SimonSays
                 }
 
                 //Plays the right sound, waits then resets the colors and adds 1 to the guess index
-                correctGuessSound.Play();
+
+                sounds[0].Play();
 
                 Refresh();
                 Thread.Sleep(200);
@@ -166,7 +169,7 @@ namespace SimonSays
             else
             {
                 //Play the wrong sound and show the GameOver screen
-                wrongGuessSound.Play();
+                sounds[1].Play();
 
                 Form parentForm = this.FindForm();
                 ParentForm.Controls.Add(new GameOverScreen());
